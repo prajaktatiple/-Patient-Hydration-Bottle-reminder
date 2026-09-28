@@ -1,0 +1,1 @@
+{"name":"patient-hydration-bottle","version":"1.0.0","description":"Smart Patient Hydration Reminder Bottle - prototype","main":"server.js","scripts":{"start":"node server.js"},"dependencies":{"express":"^4.19.2"}}

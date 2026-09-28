@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Smart Hydration Bottle</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script></head><body>
+<div class="app"><aside><h2>💧 HydraCare</h2><nav id="nav"></nav></aside><main>
+<div class="top"><div><b data-k="name"></b> <span class="pill" id="st"></span></div>
+<div class="row" style="margin:0"><button class="ghost" id="bell">🔔 Enable alerts</button><button id="demo">▶ Demo day</button></div></div>
+<div id="banner"><b>Time to drink water.</b> <span class="row" style="display:inline-flex;margin:0 0 0 .8rem"><button style="background:#fff;color:#1668d9" onclick="drink(250)">Drank water</button><button style="background:#0b2545" onclick="snooze()">Snooze 10 min</button></span></div>
+<div id="alerts"></div>
+
+<section id="dashboard"><div class="grid">
+<div class="card"><h3>Hydration today</h3><div class="ring" id="ring"><div><span data-k="pct"></span>%</div></div></div>
+<div class="card"><h3>Intake</h3><div class="big"><span data-k="ml"></span> ml</div><p>Target <b data-k="target"></b> ml · Remaining <b data-k="remaining"></b> ml</p><p>Bottle level <b data-k="level"></b> ml</p></div>
+<div class="card"><h3>Hydration Score</h3><div class="big" data-k="scoreTxt"></div><p class="note">Wellness indicator, not a medical diagnosis.</p></div>
+<div class="card"><h3>Reminders</h3><p>Last drink <b data-k="last"></b></p><p>Next reminder <b data-k="nextT"></b></p><p>Missed <b data-k="missed"></b> · Streak <b data-k="streak"></b> days</p><p>Weekly consistency <b data-k="weeklyConsistency"></b>%</p></div></div>
+<div class="split"><div class="card"><h3>Today's timeline</h3><ul class="tl" id="tl"></ul></div><div class="card"><h3>Log water</h3><div class="row"><button onclick="drink(250)">Drink 250 ml</button><button class="ghost" onclick="drink(200)">200 ml</button><button class="ghost" onclick="drink(500)">500 ml</button></div><div id="gap"></div></div></div></section>
+
+<section id="patient"><div class="card" style="max-width:640px"><h3>Patient profile</h3><div id="pf"></div>
+<p class="note" id="est"></p><div class="row"><button onclick="saveP()">Save profile</button><button class="ghost" onclick="useEst()">Use estimate</button></div><div class="row" id="profiles"></div></div></section>
+
+<section id="bottle"><div class="split"><div class="card"><div class="bottle"><div class="water" id="water"></div></div>
+<p style="text-align:center;margin-top:1rem"><b data-k="level"></b> / <b data-k="cap"></b> ml · <b data-k="bpct"></b>% · consumed <b data-k="ml"></b> ml</p>
+<div class="row" style="justify-content:center"><button onclick="bd(250)">Drink 250 ml</button><button class="ghost" onclick="post('/bottle/refill')">Refill</button></div></div></div></section>
+
+<section id="reminders"><div class="card" style="max-width:520px"><h3>Reminder settings</h3><label>Reminder interval (minutes)</label><input id="ri" type="number" min="1"><label>Caregiver alert after no logging (minutes)</label><input id="ra" type="number" min="1">
+<div class="row"><button onclick="saveR()">Save</button><button class="ghost" onclick="fire()">Test reminder</button></div><p class="note">Reminders stop automatically when water is logged.</p></div></section>
+
+<section id="analytics"><div class="split"><div class="card"><h3>Water by hour</h3><canvas id="c1"></canvas></div><div class="card"><h3>Weekly hydration</h3><canvas id="c2"></canvas></div><div class="card"><h3>Target vs actual (today)</h3><canvas id="c3"></canvas></div><div class="card"><h3>Daily progress</h3><canvas id="c4"></canvas></div></div></section>
+
+<section id="caregiver"><div class="card"><h3>Caregiver / Doctor view</h3><div class="grid"><div><b data-k="name"></b><br>Hydration <b data-k="pct"></b>%</div><div>Last intake <b data-k="last"></b></div><div>Status <b id="cst"></b></div><div>Missed reminders <b data-k="missed"></b></div></div><div id="calerts"></div></div>
+<p class="note">Safety concept: if no hydration is logged for the configured period, a caregiver alert is generated. Prototype simulation only, not medical monitoring.</p></section>
+
+<section id="iot"><div class="split"><div class="card"><h3>IoT Simulation Mode</h3><div class="row"><button onclick="sim('drink')">Drink detected</button><button onclick="sim('refill')">Bottle refilled</button><button onclick="sim('low')">Low water</button><button onclick="sim('reading')">Sensor reading</button><button onclick="sim('temp')">Temperature</button><button onclick="sim('response')">Reminder response</button></div></div>
+<div class="card"><h3>Live sensor feed</h3><pre class="mono" id="feed"></pre></div></div></section>
+
+<section id="hardware"><div class="card"><h3>Hardware architecture</h3>
+<svg viewBox="0 0 900 200" style="width:100%"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#1668d9"/></marker></defs>
+<g font-size="13" text-anchor="middle" fill="#0b2545"><g fill="#e5f0ff" stroke="#1668d9"><rect x="5" y="70" width="100" height="60" rx="12"/><rect x="135" y="70" width="100" height="60" rx="12"/><rect x="265" y="70" width="110" height="60" rx="12"/><rect x="405" y="70" width="110" height="60" rx="12"/><rect x="545" y="70" width="110" height="60" rx="12"/><rect x="685" y="70" width="100" height="60" rx="12"/><rect x="805" y="70" width="90" height="60" rx="12"/></g>
+<text x="55" y="105">Smart Bottle</text><text x="185" y="105">Load Cell</text><text x="320" y="105">ESP32</text><text x="460" y="105">LED / Buzzer</text><text x="600" y="105">Wi-Fi / BLE</text><text x="735" y="105">Node API</text><text x="850" y="105">Dashboard</text><text x="600" y="165">Battery powers ESP32</text></g>
+<g stroke="#1668d9" stroke-width="2" marker-end="url(#a)"><path d="M105 100H133"/><path d="M235 100H263"/><path d="M375 100H403"/><path d="M515 100H543"/><path d="M655 100H683"/><path d="M785 100H803"/></g></svg>
+<h3 style="margin-top:1rem">Future hardware integration</h3><p>The ESP32 sends weight readings to <code>POST /api/sensor/simulate</code>-style endpoints; replacing the simulator only needs a device that posts the same JSON. Level = (weight − empty bottle weight). A drop in weight is logged as a drink.</p></div></section>
+
+<section id="settings"><div class="card" style="max-width:520px"><h3>Settings</h3><div class="row"><button onclick="toggleTheme()">Dark / light</button><button class="ghost" onclick="location.href='/api/report.csv'">Export CSV</button><button class="warn" onclick="post('/reset')">Reset day</button></div>
+<p class="note">Patient data is stored locally in this prototype. No real medical diagnosis is performed. This system does not replace doctors or medical devices.</p></div></section>
+</main></div><script src="js/app.js"></script></body></html>
