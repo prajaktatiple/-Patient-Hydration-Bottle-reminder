@@ -1,7 +1,12 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 app.use(express.json());
-app.use(express.static(__dirname));
+const sendFile = file => (req, res) => res.sendFile(path.join(__dirname, file));
+app.get(['/', '/index.html'], sendFile('index.html'));
+app.get('/dashboard.html', sendFile('dashboard.html'));
+app.get('/style.css', sendFile('style.css'));
+app.get('/app.js', sendFile('app.js'));
 app.use('/api', require('./api'));
 app.use('/api', (req, res) => res.status(404).json({ error: 'Endpoint not found' }));
 app.use((err, req, res, next) => res.status(err.status || 500).json({ error: err.message }));
