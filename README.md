@@ -11,7 +11,11 @@ Open http://localhost:3000. The server uses `PORT` when provided and otherwise l
 
 ## Deploy to Render
 
-Create a **Web Service** connected to this repository, then use:
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/prajaktatiple/-Patient-Hydration-Bottle-reminder)
+
+The first deployment requires signing in to Render and authorizing creation of the service. After deployment completes, open the `onrender.com` URL Render provides to launch the app directly. GitHub repository pages display source code; they do not run Node.js servers.
+
+The `render.yaml` Blueprint configures a **Web Service** with:
 
 - Build Command: `npm install`
 - Start Command: `npm start`
