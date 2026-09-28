@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db = require('../database/db');
+const db = require('./db');
 const bad = (msg) => { const e = new Error(msg); e.status = 400; return e; };
 const sameDay = (a, b) => new Date(a).toDateString() === new Date(b).toDateString();
 const todayLogs = () => db.get().logs.filter(l => sameDay(l.ts, Date.now()));

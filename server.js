@@ -1,10 +1,10 @@
 const express = require('express');
-const path = require('path');
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/api', require('./routes/api'));
+app.use(express.static(__dirname));
+app.use('/api', require('./api'));
 app.use('/api', (req, res) => res.status(404).json({ error: 'Endpoint not found' }));
 app.use((err, req, res, next) => res.status(err.status || 500).json({ error: err.message }));
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Hydration Bottle running at http://localhost:${PORT}`));
+const HOST = '0.0.0.0';
+app.listen(PORT, HOST, () => console.log(`Hydration Bottle listening on ${HOST}:${PORT}`));
